@@ -15,9 +15,10 @@ class LoginController extends Controller
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $request->session()->regenerate();
 
-            return redirect('employee/list');
+            $user = Auth::user();
+            return redirect('employee/list')->with('success', 'Logged In Successful!! ');
         } else {
-            dd("Credentials Mismatch!! Try again :(");
+            return back()->with('error', 'Credentials Mismatch!! Plz Retry');
         }
 
     }
@@ -26,8 +27,6 @@ class LoginController extends Controller
     public function logout()
     {
         Auth::logout();
-        dump("Logged out");
-        usleep(2000000);
-        return redirect('/');
+        return redirect('/')->with('warning', 'Log-out successful!');
     }
 }

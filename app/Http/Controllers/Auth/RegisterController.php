@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserValidate;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -13,7 +14,7 @@ class RegisterController extends Controller
         return view('register');
     }
 
-    public function signup(Request $request)
+    public function signup(UserValidate $request)
     {
         $user = new User();
         $user->fname = $request->first_name;
@@ -23,8 +24,6 @@ class RegisterController extends Controller
         $user->gender = $request->gender;
         $user->phoneno = $request->phone_no;
         $user->save();
-        dump("User " . $request->first_name . " Created successfully");
-        usleep(2000000);
-        return redirect('/');
+        return redirect('/')->with('success', 'User Successfylly Registered');
     }
 }

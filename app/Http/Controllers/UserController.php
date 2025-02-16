@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EmployeeValidate;
 use App\Models\Employee;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -31,14 +32,13 @@ class UserController extends Controller
         }
         return view('add_employee');
     }
-    public function store(Request $request)
+    public function store(EmployeeValidate $request)
     {
         $users = Auth::user();
         if (!$users) {
-            dump("Illegal Login");
-            usleep(1000000);
-            return redirect('/');
+            return redirect('/')->with('error', 'Illegal Login.. Plz Retry');
         }
+
         $employee = new Employee();
         $employee->fname = $request->fname;
         $employee->lname = $request->lname;
@@ -50,7 +50,7 @@ class UserController extends Controller
         $employee->staff_comment = $request->staff_comment;
         $employee->save();
 
-        return redirect('employee/list');
+        return redirect('employee/list')->with('success', 'Employee Added successfylly!!');
     }
     public function edit($id)
     {
@@ -81,7 +81,7 @@ class UserController extends Controller
         Auth::user();
         $employee = Employee::find($id);
         $employee->delete();
-        return redirect('employee/list');
+        return redirect('employee/list')->with('success', 'Employee Deleted Successfully!!');
 
     }
     public function show($id)

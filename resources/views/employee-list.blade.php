@@ -90,7 +90,7 @@
 
                         <h1>Employees List</h1>
                         <h5 id="txt-animation">Welcome Back --{{ Auth::user()->fname }}--</h5>
-
+                        @include('error_msg')
                         <a href="{{ url('employee/create') }}" class="btn btn-info mb-3">Add Employee</a>
                         <div class="card">
                             <div class="card-body p-0">
@@ -98,7 +98,7 @@
                                     <table class="table table-striped mb-0">
                                         <thead>
                                             <tr class="text-uppercase table-danger text-success">
-                                                <th scope="col">ID</th>
+                                                <th scope="col">Index</th>
                                                 <th scope="col">Name</th>
                                                 <th scope="col">Address</th>
                                                 <th scope="col">Phone No.</th>
@@ -113,9 +113,9 @@
                                                     <td colspan="10" class="text-center">No Employees currently</td>
                                                 </tr>
                                             @endif
-                                            @foreach ($employees as $employee)
+                                            @foreach ($employees->sortByDesc('created_at') as $key => $employee) <!-- sorting descending-->
                                                 <tr>
-                                                    <td>{{ $employee->id }}</td>
+                                                    <td>{{ $key + 1 }}</td>
                                                     <td>{{ $employee->fname }} {{ $employee->lname }}</td>
                                                     <td>{{ $employee->address }}</td>
                                                     <td>{{ $employee->phoneno }}</td>
