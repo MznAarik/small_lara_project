@@ -35,14 +35,15 @@
 
     <div class="container text-center">
         <h2 class="mb-4">Signup</h2>
-        @foreach ($errors->all() as $message)
-            <div class="alert alert-danger">{{$message}}</div>
-        @endforeach
+        {{-- displaying all the errors at once --}}
+        {{-- @foreach ($errors->all() as $message)
+        <div class="alert alert-danger">{{$message}}</div>
+        @endforeach --}}
         <form action="{{url('signup')}}" method="POST">
             @csrf
             <div class="form-group">
                 <label for="first_name">First Name:</label>
-                <input type="text" id="first_name" name="first_name"
+                <input type="text" id="first_name" name="first_name" value="{{old('first_name')}}"
                     class="form-control @error('first_name') is-invalid @enderror ">
 
                 @error('first_name')
@@ -52,7 +53,7 @@
 
             <div class="form-group">
                 <label for="last_name">Last Name:</label>
-                <input type="text" id="last_name" name="last_name"
+                <input type="text" id="last_name" name="last_name" value="{{old('last_name')}}"
                     class="form-control @error('last_name') is-invalid @enderror">
 
                 @error('last_name')
@@ -62,7 +63,8 @@
 
             <div class="form-group">
                 <label for="email">Email:</label>
-                <input type="email" id="email" name="email" class="form-control @error('email') is-invalid @enderror">
+                <input type="email" id="email" name="email" value="{{old('email')}}"
+                    class="form-control @error('email') is-invalid @enderror">
 
                 @error('email')
                     <div class="text-danger">{{ $message }}</div>
@@ -71,7 +73,7 @@
 
             <div class="form-group">
                 <label for="password">Password:</label>
-                <input type="password" id="password" name="password"
+                <input type="password" id="password" name="password" value="{{old('password')}}"
                     class="form-control @error('password') is-invalid @enderror">
 
                 @error('password')
@@ -89,14 +91,14 @@
 
             <div class="form-group">
                 <label for="phone_no">Phone Number:</label>
-                <input type="text" id="phone_no" name="phone_no"
+                <input type="text" id="phone_no" name="phone_no" value="{{old('phone_no')}}"
                     class="form-control @error('phone_no') is-invalid @enderror">
                 @error('phone_no')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
 
-            <button type="submit" class="btn btn-primary ">Signup</button>
+            <button type="submit" class="btn btn-primary mb-2">Signup</button>
         </form>
 
         <div class="links">

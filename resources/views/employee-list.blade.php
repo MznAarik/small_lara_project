@@ -100,7 +100,6 @@
                                             <tr class="text-uppercase table-danger text-success">
                                                 <th scope="col">Index</th>
                                                 <th scope="col">Name</th>
-                                                <th scope="col">Address</th>
                                                 <th scope="col">Phone No.</th>
                                                 <th scope="col">E-mail</th>
                                                 <th scope="col">Department</th>
@@ -113,14 +112,13 @@
                                                     <td colspan="10" class="text-center">No Employees currently</td>
                                                 </tr>
                                             @endif
-                                            @foreach ($employees->sortByDesc('created_at') as $key => $employee) <!-- sorting descending-->
+                                            @foreach ($employees->sortByDesc('created_at') as $employee) <!-- sorting descending-->
                                                 <tr>
-                                                    <td>{{ $key + 1 }}</td>
+                                                    <td>{{ $employee->id }}</td>
                                                     <td>{{ $employee->fname }} {{ $employee->lname }}</td>
-                                                    <td>{{ $employee->address }}</td>
                                                     <td>{{ $employee->phoneno }}</td>
                                                     <td>{{ $employee->email }}</td>
-                                                    <td>{{ $employee->created_at }}</td>
+                                                    <td>{{ $employee->department }}</td>
                                                     <td>
                                                         <a href="{{ url('employee/' . $employee->id) }}"
                                                             class="btn btn-warning"><i class="fa fa-eye"></i></a>
@@ -128,12 +126,14 @@
                                                             class="btn btn-primary  "> <i class="fa fa-edit"></i> </a>
                                                         <a href="{{ url('employee/delete/' . $employee->id) }}"
                                                             class="btn btn-danger"><i class="fa fa-trash"></i></a>
-
                                                     </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
                                     </table>
+                                    <div class="paginator d-flex justify-content-center">
+                                        {{$employees->links()}}
+                                    </div>
                                 </div>
                             </div>
                         </div>

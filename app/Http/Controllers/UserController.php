@@ -14,11 +14,9 @@ class UserController extends Controller
     {
         $users = Auth::user();
         if (!$users) {
-            dump("Illegal Login!!!");
-            usleep(2000000);
-            return redirect('/');
+            return redirect('/')->with('error', 'Illegal login! plz retry');
         }
-        $employees = Employee::all();
+        $employees = Employee::paginate(6);
         // dd($users);
         return view('employee-list', compact('employees'));
     }
@@ -26,9 +24,7 @@ class UserController extends Controller
     {
         $users = Auth::user();
         if ($users == null) {
-            dump("Illegal Login");
-            usleep(2000000);
-            return redirect('/');
+            return redirect('/')->with('error', 'Illegal login! plz retry ');
         }
         return view('add_employee');
     }
@@ -58,10 +54,13 @@ class UserController extends Controller
         $employee = Employee::find($id);
         return view('edit_employee', compact('employee'));
     }
-    public function update(Request $request)
+    public function update(EmployeeValidate $request)
     {
 
-        Auth::user();
+        $users = Auth::user();
+        if (!$users) {
+            return redirect('/')->with('error', 'Illegal Login.. Plz Retry');
+        }
         $id = $request->id;
         $employee = Employee::find($id);
         $employee->fname = $request->fname;
@@ -74,7 +73,8 @@ class UserController extends Controller
         $employee->staff_comment = $request->staff_comment;
         $employee->save();
 
-        return redirect('employee/list');
+        return redirect('employee/list')->with('success', 'Employee updated successfylly!!');
+
     }
     public function delete($id)
     {

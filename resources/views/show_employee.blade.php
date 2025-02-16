@@ -56,7 +56,7 @@
             </div>
 
             <div class="d-flex justify-content-end">
-                <a href="{{url('employee/list')}}" class="btn btn-primary">Go Back</a>
+                <a href="{{url('employee/list')}}" class="btn btn-info">Go Back</a>
             </div>
         </form>
     </div>
