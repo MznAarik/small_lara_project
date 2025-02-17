@@ -10,15 +10,56 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    public function index()
+
+    // public function search(Request $request)
+    // {
+    //     $search = $request->search;
+    //     $employees = Employee::all();
+
+    //     if ($search !== '') {
+    //         $employees = Employee::where('fname', 'LIKE', '%' . $search . '%')
+    //             ->orWhere('lname', 'LIKE', '%' . $search . '%')
+    //             ->orWhere('email', 'LIKE', '%' . $search . '%')
+    //             ->orWhere('address', 'like', '%' . $search . '%')
+    //             ->orWhere('department', 'like', '%' . $search . '%');
+    //         dd($employees);
+    //         if (is_numeric($search)) {
+    //             $employees->orWhereRaw("CAST(phoneno AS TEXT) ILIKE ?", ["%{$search}%"]);
+    //         }
+    //         $employees = $employees->paginate(50);
+    //     }
+    //     return view('employee-list', compact('employees'));
+    // }
+
+    public function index(Request $request)
     {
+
         $users = Auth::user();
         if (!$users) {
             return redirect('/')->with('error', 'Illegal login! plz retry');
         }
+
+
+        $search = $request->search;   //if query parameter is found
         $employees = Employee::paginate(6);
-        // dd($users);
-        return view('employee-list', compact('employees'));
+
+        if ($search !== '') {
+            $employees = Employee::Where('fname', 'LIKE', '%' . $search . '%')
+                ->orWhere('lname', 'LIKE', '%' . $search . '%')
+                ->orWhere('email', 'like', "%{$search}%")
+                ->orWhere('address', 'like', "%{$search}%")
+                ->orWhere('gender', 'like', "%{$search}%")
+                ->orWhere('department', 'like', "%{$search}%");
+
+            if (is_numeric($search)) {
+                $employees->orWhere('phoneno', 'like', "%{$search}%");
+            }
+            // $employees = $employees->paginate(2);
+            $employees = $employees->orderByDesc('created_at')->orderByDesc('updated_at')->paginate(6); // Correct pagination placement
+
+        }
+
+        return view('employee-list', compact('employees', 'search'));
     }
     public function create()
     {

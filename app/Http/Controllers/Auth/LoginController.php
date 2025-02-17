@@ -12,14 +12,10 @@ class LoginController extends Controller
     public function login(Request $request)
     {
 
-        if (Auth::user()) {
-            return redirect('employee/list')->with('success', 'Already Logged In');
-        }
-
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $request->session()->regenerate();
 
-            return redirect('employee/list')->with('success', 'Logged In Successful!! ');
+            return redirect('employee/list')->with('success', 'Log-In Successful!! ');
         } else {
             return back()->with('error', 'Credentials Mismatch!! Plz Retry');
         }

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login/Signup</title>
+    <title>Login to our System</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -94,7 +94,7 @@
             </div>
 
             @include('error_msg')
-            
+
 
             <button type="submit" class="btn btn-success w-100">Login</button>
         </form>

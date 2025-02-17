@@ -20,6 +20,6 @@ Route::prefix('employee/')->group(function () {
     Route::get('edit/{id}', [UserController::class, 'edit']);
     Route::post('update', [UserController::class, 'update']);
     Route::get('delete/{id}', [UserController::class, 'delete']);
-    Route::get('/{id}', [UserController::class, 'show']);
-
+    // Route::get('search', [UserController::class, 'search']);
+    Route::get('show/{id}', [UserController::class, 'show']);
 });

@@ -84,62 +84,84 @@
 
                 <div class="row justify-content-center">
                     <div class="col-10">
-                        <div class="logout-container">
+                        <div class="logout-container mt-4">
                             <a href="{{ url('logout') }}" class="btn btn-warning">Logout</a>
                         </div>
 
-                        <h1>Employees List</h1>
-                        <h5 id="txt-animation">Welcome Back --{{ Auth::user()->fname }}--</h5>
+                        <a href="{{url('employee/list')}}">
+                            <h1>Employees List</h1>
+                        </a>
+
                         @include('error_msg')
-                        <a href="{{ url('employee/create') }}" class="btn btn-info mb-3">Add Employee</a>
+
+                        <div class="row">
+                            <div class="col-7">
+                                <h5 id="txt-animation">Welcome Back **{{ Auth::user()->fname }}**</h5>
+                                <a href="{{ url('employee/create') }}" class="btn btn-info mb-3">Add Employee</a>
+                            </div>
+                            <div class="col-5 row mt-4">
+                                <form action="{{url('employee/list')}}" class="row">
+                                    <div class="  col-8 ">
+                                        <input type="text" name="search" placeholder="Search here" class="form-control"
+                                            value="{{$search}}">
+                                    </div>
+                                    <div class="col-4">
+                                        <button class="btn btn-danger" type="submit">Search</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                         <div class="card">
                             <div class="card-body p-0">
                                 <div class="table-responsive table-scroll">
-                                    <table class="table table-striped mb-0">
-                                        <thead>
-                                            <tr class="text-uppercase table-danger text-success">
-                                                <th scope="col">Index</th>
-                                                <th scope="col">Name</th>
-                                                <th scope="col">Phone No.</th>
-                                                <th scope="col">E-mail</th>
-                                                <th scope="col">Department</th>
-                                                <th scope="col">Action</th>
+                                </div>
+                                <table class="table table-striped mb-0">
+                                    <thead>
+                                        <tr class="text-uppercase table-danger text-success">
+                                            <th scope="col">Index</th>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Phone No.</th>
+                                            <th scope="col">E-mail</th>
+                                            <th scope="col">Department</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if ($employees->isEmpty())
+                                            <tr>
+                                                <td colspan="10" class="text-center">No Employees currently</td>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                            @if ($employees->isEmpty())
-                                                <tr>
-                                                    <td colspan="10" class="text-center">No Employees currently</td>
-                                                </tr>
-                                            @endif
-                                            @foreach ($employees->sortByDesc('created_at') as $employee) <!-- sorting descending-->
-                                                <tr>
-                                                    <td>{{ $employee->id }}</td>
-                                                    <td>{{ $employee->fname }} {{ $employee->lname }}</td>
-                                                    <td>{{ $employee->phoneno }}</td>
-                                                    <td>{{ $employee->email }}</td>
-                                                    <td>{{ $employee->department }}</td>
-                                                    <td>
-                                                        <a href="{{ url('employee/' . $employee->id) }}"
-                                                            class="btn btn-warning"><i class="fa fa-eye"></i></a>
-                                                        <a href="{{ url('employee/edit/' . $employee->id) }}"
-                                                            class="btn btn-primary  "> <i class="fa fa-edit"></i> </a>
-                                                        <a href="{{ url('employee/delete/' . $employee->id) }}"
-                                                            class="btn btn-danger"><i class="fa fa-trash"></i></a>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                    <div class="paginator d-flex justify-content-center">
-                                        {{$employees->links()}}
-                                    </div>
+                                        @endif
+                                        @foreach ($employees as $key => $employee) 
+                                            <tr>
+                                                <td>{{$key + 1}}</td>
+                                                <td>{{ $employee->id }}</td>
+                                                <td>{{ $employee->fname }} {{ $employee->lname }}</td>
+                                                <td>{{ $employee->phoneno }}</td>
+                                                <td>{{ $employee->email }}</td>
+                                                <td>{{ $employee->department }}</td>
+                                                <td>
+                                                    <a href="{{ url('employee/show/' . $employee->id) }}"
+                                                        class="btn btn-warning"><i class="fa fa-eye"></i></a>
+                                                    <a href="{{ url('employee/edit/' . $employee->id) }}"
+                                                        class="btn btn-primary  "> <i class="fa fa-edit"></i> </a>
+                                                    <a href="{{ url('employee/delete/' . $employee->id) }}"
+                                                        class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                                <div class="paginator d-flex justify-content-center">
+                                    {!! $employees->appends(['search' => $search])->links() !!}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     </section>
 

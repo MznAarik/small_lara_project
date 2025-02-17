@@ -28,6 +28,13 @@
         .form-group {
             margin-bottom: 20px;
         }
+
+        .links a {
+            color: #4CAF50;
+            font-size: 1.2em;
+            font-weight: 700;
+            font-family: 'Times New Roman', Times, serif;
+        }
     </style>
 </head>
 
@@ -98,10 +105,10 @@
                 @enderror
             </div>
 
-            <button type="submit" class="btn btn-primary mb-2">Signup</button>
+            <button type="submit" class="btn btn-success mb-2 ">Signup</button>
         </form>
 
-        <div class="links">
+        <div class="links ">
             Already have an account? <a href="{{url('/')}}">Login</a>
         </div>
     </div>
