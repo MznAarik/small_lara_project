@@ -6,18 +6,29 @@
     <div class="card shadow-lg">
         <h2 class="text-center mb-4">View Employee Details</h2>
         <form>
-            <div class="row mb-3">
+            <div class="row">
+                <!-- First Column: First Name & Last Name -->
                 <div class="col-md-6">
-                    <!--readonly for secured editing method instead of url(update/{3})-->
-                    <input type="text" name="id" class="form-control" value=" {{$employee->id}}" hidden>
-                    <label for="fname" class="form-label">First Name</label>
-                    <input type="text" name="fname" class="form-control" value=" {{$employee->fname}}" readonly>
+                    <div class="col-md-12">
+                        <input type="text" name="id" class="form-control" value="{{$employee->id}}" hidden>
+                        <label for="fname" class="form-label">First Name</label>
+                        <input type="text" name="fname" class="form-control" value="{{$employee->fname}}" readonly>
+                    </div>
+                    <div class="mt-1">
+                        <label for="lname" class="form-label">Last Name</label>
+                        <input type="text" name="lname" class="form-control" value="{{$employee->lname}}" readonly>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <label for="lname" class="form-label">Last Name</label>
-                    <input type="text" name="lname" class="form-control" value="{{$employee->lname}}" readonly>
+
+                <!-- Second Column: Image Display -->
+                <div class="col-md-6  d-flex justify-content-center align-items-center">
+                    <div class="text-center">
+                        <img src="{{ asset('storage/' . $employee->image) }}" alt="Employee Photo"
+                            class="img-fluid img-responsive rounded" style="max-width: 150px; height: 150px;">
+                    </div>
                 </div>
             </div>
+
 
             <div class="mb-3">
                 <label for="address" class="form-label">Address</label>
@@ -49,13 +60,16 @@
                 </div>
             </div>
 
-            <div class="mb-3">
+            <div class="col-md-12">
                 <label for="staff_comment" class="form-label">Staff Comment</label>
-                <textarea name="staff_comment" class="form-control" rows="2"
-                    readonly>{{$employee->staff_comment}}</textarea>
+                <input type="text" name="staff_comment" value="{{$employee->staff_comment}}"
+                    class="form-control @error('department') is-invalid @enderror" readonly>
+                @error('staff_comment')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
             </div>
 
-            <div class="d-flex justify-content-end">
+            <div class="d-flex justify-content-center mt-4">
                 <a href="{{url('employee/list')}}" class="btn btn-info">Go Back</a>
             </div>
         </form>

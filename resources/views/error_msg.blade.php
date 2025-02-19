@@ -17,7 +17,7 @@
 @endif
 
 @if(session('status'))
-    <div class="alert alert-warning">
+    <div class="alert alert-info">
         {{session('warning')}}
     </div>
 @endif

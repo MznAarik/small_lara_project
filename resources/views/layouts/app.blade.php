@@ -11,7 +11,7 @@
         body {
             background-color: #f8f9fa;
         }
-        
+
         .container-custom {
             max-width: 800px;
             margin-top: 50px;
@@ -26,9 +26,9 @@
 
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-secondary bg-secondary">
         <div class="container">
-            <a class="navbar-brand" href="#">Employee Management</a>
+            <a class="navbar-brand" href="{{url('employee/list')}}">Employee Management</a>
         </div>
     </nav>
 

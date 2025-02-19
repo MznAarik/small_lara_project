@@ -7,6 +7,7 @@ use App\Models\Employee;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -41,7 +42,7 @@ class UserController extends Controller
 
 
         $search = $request->search;   //if query parameter is found
-        $employees = Employee::paginate(6);
+        $employees = Employee::paginate(5);
 
         if ($search !== '') {
             $employees = Employee::Where('fname', 'LIKE', '%' . $search . '%')
@@ -55,7 +56,7 @@ class UserController extends Controller
                 $employees->orWhere('phoneno', 'like', "%{$search}%");
             }
             // $employees = $employees->paginate(2);
-            $employees = $employees->orderByDesc('created_at')->orderByDesc('updated_at')->paginate(6); // Correct pagination placement
+            $employees = $employees->orderByDesc('created_at')->orderByDesc('updated_at')->paginate(5); // Correct pagination placement
 
         }
 
@@ -73,8 +74,18 @@ class UserController extends Controller
     {
         $users = Auth::user();
         if (!$users) {
-            return redirect('/')->with('error', 'Illegal Login.. Plz Retry');
+            return redirect('/')->with('error', 'Illegal Login... Please Retry');
         }
+
+        $file = $request->file('image');
+        // $path = $request->file('image')->store('images', 'public'); 
+        // $path = $request->image->store('images', 'public'); //just need field of image to store image
+
+        $fileName = time() . '_' . $file->hashName();  //for hashing the image name
+        // $file_name = $file->time() . $request->image->getClientOriginalName();
+        // $fileExtension = $file->extension(); //for getting original extension
+
+        $path = $request->file('image')->storeAs('images', $fileName, 'public'); // if you need same as image name
 
         $employee = new Employee();
         $employee->fname = $request->fname;
@@ -85,6 +96,7 @@ class UserController extends Controller
         $employee->email = $request->email;
         $employee->department = $request->department;
         $employee->staff_comment = $request->staff_comment;
+        $employee->image = $path;
         $employee->save();
 
         return redirect('employee/list')->with('success', 'Employee Added successfylly!!');
@@ -95,15 +107,30 @@ class UserController extends Controller
         $employee = Employee::find($id);
         return view('edit_employee', compact('employee'));
     }
-    public function update(EmployeeValidate $request)
+    public function update(Request $request)
     {
-
         $users = Auth::user();
         if (!$users) {
-            return redirect('/')->with('error', 'Illegal Login.. Plz Retry');
+            return redirect('/')->with('error', 'Illegal Login.. Please Retry');
         }
+
         $id = $request->id;
         $employee = Employee::find($id);
+        if ($request->hasFile('image')) {
+            $image_path = public_path("storage/") . $employee->image;
+
+            if (file_exists($image_path)) {
+                // if (Storage::exists($image_path)) {   //If you havent linked storage and public folders
+                @unlink($image_path);
+                // Storage::delete($image_path);
+            }
+        }
+        $file = $request->file('image');
+        $fileName = time() . '_' . $file->hashName();  //for hashing the image name
+
+        $path = $request->file('image')->storeAs('images', $fileName, 'public');
+
+
         $employee->fname = $request->fname;
         $employee->lname = $request->lname;
         $employee->address = $request->address;
@@ -112,9 +139,10 @@ class UserController extends Controller
         // $employee->email = $request->email;  // //if you dont want someone to edit some of the fields
         $employee->department = $request->department;
         $employee->staff_comment = $request->staff_comment;
+        $employee->image = $path;
         $employee->save();
 
-        return redirect('employee/list')->with('success', 'Employee updated successfylly!!');
+        return redirect('employee/list')->with('success', 'Employee updated successfully!!');
 
     }
     public function delete($id)
@@ -122,7 +150,7 @@ class UserController extends Controller
         Auth::user();
         $employee = Employee::find($id);
         $employee->delete();
-        return redirect('employee/list')->with('success', 'Employee Deleted Successfully!!');
+        return redirect('employee/list')->with('success', 'Employee removed Successfully!!');
 
     }
     public function show($id)

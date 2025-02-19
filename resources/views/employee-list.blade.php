@@ -115,7 +115,7 @@
                             <div class="card-body p-0">
                                 <div class="table-responsive table-scroll">
                                 </div>
-                                <table class="table table-striped mb-0">
+                                <table class="table table-striped mb-0 text-center">
                                     <thead>
                                         <tr class="text-uppercase table-danger text-success">
                                             <th scope="col">Index</th>
@@ -123,6 +123,7 @@
                                             <th scope="col">Name</th>
                                             <th scope="col">Phone No.</th>
                                             <th scope="col">E-mail</th>
+                                            <th scope="col">Image</th>
                                             <th scope="col">Department</th>
                                             <th scope="col">Action</th>
                                         </tr>
@@ -140,6 +141,11 @@
                                                 <td>{{ $employee->fname }} {{ $employee->lname }}</td>
                                                 <td>{{ $employee->phoneno }}</td>
                                                 <td>{{ $employee->email }}</td>
+                                                <td>
+                                                    <img src="{{ asset('storage/' . $employee->image) }}"
+                                                        alt="Employee Photo" class="img-fluid rounded"
+                                                        style="max-width: 120px; height: 120px;">
+                                                </td>
                                                 <td>{{ $employee->department }}</td>
                                                 <td>
                                                     <a href="{{ url('employee/show/' . $employee->id) }}"
@@ -153,7 +159,7 @@
                                         @endforeach
                                     </tbody>
                                 </table>
-                                <div class="paginator d-flex justify-content-center">
+                                <div class="paginator d-flex justify-content-center mt-3">
                                     {!! $employees->appends(['search' => $search])->links() !!}
                                 </div>
                             </div>

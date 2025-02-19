@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Employee extends Model
 {
 
+    // protected $guarded=[]
     protected $fillable = [
         'fname',
         'lname',
@@ -17,5 +18,6 @@ class Employee extends Model
         'department',
         'staff_comment',
         'created_at',
+        'image',
     ];
 }

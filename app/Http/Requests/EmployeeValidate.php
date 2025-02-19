@@ -26,9 +26,10 @@ class EmployeeValidate extends FormRequest
             'lname' => 'required|max:20|min:3',
             'address' => 'required|min:3',
             'phoneno' => 'required|integer|digits:10',
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email|unique:employees',
             'department' => 'required|min:3',
             'staff_comment' => 'required|min:3',
+            'image' => 'required|mimes:png,jpg,jpeg|max:5000',
         ];
     }
 }
