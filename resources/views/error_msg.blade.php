@@ -18,6 +18,6 @@
 
 @if(session('status'))
     <div class="alert alert-info">
-        {{session('warning')}}
+        {{session('status')}}
     </div>
 @endif

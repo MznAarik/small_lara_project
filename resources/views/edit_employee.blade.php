@@ -5,7 +5,7 @@
 @section('content')
     <div class="card shadow-lg">
         <h2 class="text-center mb-4">Edit Employee</h2>
-        <form action="{{ url('employee/update') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('employee.update') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="row mb-3">
                 <div class="col-md-6">

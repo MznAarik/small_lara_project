@@ -97,6 +97,9 @@ class UserController extends Controller
         $employee->department = $request->department;
         $employee->staff_comment = $request->staff_comment;
         $employee->image = $path;
+        // dd(implode(',', $request->shifts)); //testing conversion
+        $employee->shifts = ($request->shifts) ? implode(',', $request->shifts) : null;  //implode converts array to string
+        $employee->manager = $request->manager;
         $employee->save();
 
         return redirect('employee/list')->with('success', 'Employee Added successfylly!!');
@@ -149,9 +152,13 @@ class UserController extends Controller
     {
         Auth::user();
         $employee = Employee::find($id);
-        $employee->delete();
-        return redirect('employee/list')->with('success', 'Employee removed Successfully!!');
 
+        $image_path = public_path('storage/') . $employee->image;
+        if (file_exists($image_path)) {
+            @unlink($image_path);
+        }
+        $employee->delete();
+        return redirect('employee/list')->with('status', 'Employee removed Successfully!!');
     }
     public function show($id)
     {

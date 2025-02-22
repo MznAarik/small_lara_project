@@ -6,7 +6,7 @@
     <div class="card shadow-lg">
         <h2 class="text-center mb-4">Add New Employee</h2>
         <!--enctype compulsory for file upload-->
-        <form action="{{ url('employee/store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('employee.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="row mb-3">
                 <div class="col-md-6">
@@ -84,8 +84,31 @@
                 </div>
                 <div class="col-md-6">
                     <label for="image" class="form-label">Image</label>
-                    <input type="file" name="image" value="{{old('image')}}" class="form-control" accept="images/*">
+                    <input type="file" name="image" value="{{old('image')}}"
+                        class="form-control @error('department') is-invalid @enderror" accept=" images/*">
                     @error('image')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 form-group @error('shifts') is-invalid @enderror">
+                    <label for="shifts" class="form-label">Shifts</label>
+                    <br>
+                    <input type="checkbox" name="shifts[]" value="morning">Morning</input>
+                    <input type="checkbox" name="shifts[]" value="evening">Evening</input>
+                    <input type="checkbox" name="shifts[]" value="night">Night</input>
+                    </select>
+                    @error('shifts')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="col-md-6 mb-4">
+                    <label for="manager" class="form-label">Reporting Manager</label>
+                    <input type="text" name="manager" value="{{old('manager')}}"
+                        class="form-control @error('department') is-invalid @enderror">
+                    @error('manager')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
                 </div>

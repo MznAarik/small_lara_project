@@ -29,7 +29,7 @@ class EmployeeValidate extends FormRequest
             'email' => 'required|email|unique:employees',
             'department' => 'required|min:3',
             'staff_comment' => 'required|min:3',
-            'image' => 'required|mimes:png,jpg,jpeg|max:5000',
+            'image' => 'required|mimes:png,jpg,jpeg,gif|max:5000',
         ];
     }
 }

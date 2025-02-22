@@ -69,8 +69,29 @@
                 @enderror
             </div>
 
+            <div class="row mt-2">
+                <div class="col-md-6 form-group @error('shifts') is-invalid @enderror">
+                    <label for="shifts" class="form-label">Shifts</label>
+                    <br>
+                    <input type="text" name="shifts" value="{{$employee->shifts}}"
+                        class="form-control @error('shifts') is-invalid @enderror" readonly>
+                    <!--if you want array back use explode-->
+                    @error('shifts')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="col-md-6 mb-4">
+                    <label for="manager" class="form-label">Reporting Manager</label>
+                    <input type="text" name="manager" value="{{($employee->manager)}}"
+                        class="form-control @error('department') is-invalid @enderror">
+                    @error('manager')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
+
             <div class="d-flex justify-content-center mt-4">
-                <a href="{{url('employee/list')}}" class="btn btn-info">Go Back</a>
+                <a href="{{route('employee.index')}}" class="btn btn-info">Go Back</a>
             </div>
         </form>
     </div>

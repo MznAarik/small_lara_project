@@ -83,12 +83,12 @@
 
 
                 <div class="row justify-content-center">
-                    <div class="col-10">
+                    <div class="col-12">
                         <div class="logout-container mt-4">
                             <a href="{{ url('logout') }}" class="btn btn-warning">Logout</a>
                         </div>
 
-                        <a href="{{url('employee/list')}}">
+                        <a href="{{route('employee.index')}}">
                             <h1>Employees List</h1>
                         </a>
 
@@ -106,7 +106,7 @@
                                             value="{{$search}}">
                                     </div>
                                     <div class="col-4">
-                                        <button class="btn btn-danger" type="submit">Search</button>
+                                        <button class="btn btn-info" type="submit">Search</button>
                                     </div>
                                 </form>
                             </div>
@@ -148,11 +148,11 @@
                                                 </td>
                                                 <td>{{ $employee->department }}</td>
                                                 <td>
-                                                    <a href="{{ url('employee/show/' . $employee->id) }}"
+                                                    <a href="{{ route('employee.show', $employee->id) }}"
                                                         class="btn btn-warning"><i class="fa fa-eye"></i></a>
-                                                    <a href="{{ url('employee/edit/' . $employee->id) }}"
+                                                    <a href="{{ route('employee.edit', $employee->id) }}"
                                                         class="btn btn-primary  "> <i class="fa fa-edit"></i> </a>
-                                                    <a href="{{ url('employee/delete/' . $employee->id) }}"
+                                                    <a href="{{ route('employee.delete', $employee->id) }}"
                                                         class="btn btn-danger"><i class="fa fa-trash"></i></a>
                                                 </td>
                                             </tr>
