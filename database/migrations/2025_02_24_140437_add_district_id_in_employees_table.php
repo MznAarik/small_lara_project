@@ -3,7 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use phpDocumentor\Reflection\Types\Nullable;
 
 return new class extends Migration {
     /**
@@ -12,9 +11,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('employees', function (Blueprint $table) {
-            $table->string('image')->nullable()->after('phoneno');
-            $table->string('shifts')->nullable();
-            $table->string('manager')->nullable();
+            $table->unsignedBigInteger('district_id')->nullable();
         });
     }
 
@@ -24,9 +21,7 @@ return new class extends Migration {
     public function down(): void
     {
         Schema::table('employees', function (Blueprint $table) {
-            $table->dropColumn('image');
-            $table->dropColumn('shifts');
-            $table->dropColumn('manager');
+            $table->dropColumn('district_id');
         });
     }
 };

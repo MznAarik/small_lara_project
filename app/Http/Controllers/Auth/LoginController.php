@@ -12,6 +12,9 @@ class LoginController extends Controller
     public function login(Request $request)
     {
 
+        if (!User::where('email', $request->email)->exists()) {
+            return back()->with('error', 'No User found with email: ' . $request->email);
+        }
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $request->session()->regenerate();
 

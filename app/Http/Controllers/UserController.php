@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\EmployeeValidate;
+use App\Models\Country;
+use App\Models\District;
 use App\Models\Employee;
+use App\Models\State;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -62,13 +65,16 @@ class UserController extends Controller
 
         return view('employee-list', compact('employees', 'search'));
     }
-    public function create()
+    public function create(Request $request)
     {
         $users = Auth::user();
         if ($users == null) {
             return redirect('/')->with('error', 'Illegal login! plz retry ');
         }
-        return view('add_employee');
+        // sending data to view it as per selection 
+
+        $districts = District::all();
+        return view('add_employee', compact('districts'));
     }
     public function store(EmployeeValidate $request)
     {
@@ -100,6 +106,7 @@ class UserController extends Controller
         // dd(implode(',', $request->shifts)); //testing conversion
         $employee->shifts = ($request->shifts) ? implode(',', $request->shifts) : null;  //implode converts array to string
         $employee->manager = $request->manager;
+        $employee->district_id = $request->district;
         $employee->save();
 
         return redirect('employee/list')->with('success', 'Employee Added successfylly!!');
@@ -163,7 +170,13 @@ class UserController extends Controller
     public function show($id)
     {
         Auth::user();
-        $employee = Employee::find($id);
+        $employee = Employee::join('districts', 'districts.id', '=', 'employees.district_id')
+            ->join('states', 'states.id', '=', 'districts.state_id')
+            ->join('countries', 'countries.id', '=', 'states.country_id')
+            ->select('employees.*', 'districts.name as district_name', 'states.name as state_name', 'countries.name as country_name')
+            ->where('employees.id', $id)
+            ->first();
+        dd($employee);
         return view('show_employee', compact('employee'));
     }
 }

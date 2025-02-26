@@ -11,8 +11,11 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('employees', function (Blueprint $table) {
-            $table->string('shifts')->nullable();
-            $table->string('manager')->nullable();
+            $table->foreign('district_id')
+                ->references('id')
+                ->on('districts')
+                ->onUpdate('cascade')
+                ->onDelete('set null');
         });
     }
 
@@ -22,8 +25,7 @@ return new class extends Migration {
     public function down(): void
     {
         Schema::table('employees', function (Blueprint $table) {
-            $table->dropColumn('shifts');
-            $table->dropColumn('manager');
+            $table->dropForeign('district_id');
         });
     }
 };

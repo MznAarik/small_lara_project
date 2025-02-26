@@ -13,13 +13,13 @@ Route::post('signup', [RegisterController::class, 'signup']);
 Route::post('login', [LoginController::class, 'login']);
 Route::get('logout', [LoginController::class, 'logout']);
 
-Route::prefix('employee/')->group(function () {
-    Route::get('list', [UserController::class, 'index'])->name('employee.index');
-    Route::get('create', [UserController::class, 'create'])->name('employee.create');
-    Route::post('store', [UserController::class, 'store'])->name('employee.store');
-    Route::get('edit/{id}', [UserController::class, 'edit'])->name('employee.edit');
-    Route::post('update', [UserController::class, 'update'])->name('employee.update');
-    Route::get('delete/{id}', [UserController::class, 'delete'])->name('employee.delete');
+Route::prefix('employee/')->name('employee.')->group(function () {
+    Route::get('list', [UserController::class, 'index'])->name('index');
+    Route::get('create', [UserController::class, 'create'])->name('create');
+    Route::post('store', [UserController::class, 'store'])->name('store');
+    Route::get('edit/{id}', [UserController::class, 'edit'])->name('edit');
+    Route::post('update', [UserController::class, 'update'])->name('update');
+    Route::get('delete/{id}', [UserController::class, 'delete'])->name('delete');
     // Route::get('search', [UserController::class, 'search']) ->name('employee.search');
-    Route::get('show/{id}', [UserController::class, 'show'])->name('employee.show');
+    Route::get('show/{id}', [UserController::class, 'show'])->name('show');
 });
