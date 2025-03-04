@@ -15,8 +15,16 @@ class LoginController extends Controller
         if (!User::where('email', $request->email)->exists()) {
             return back()->with('error', 'No User found with email: ' . $request->email);
         }
+
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $request->session()->regenerate();
+            $user = Auth::user();
+
+
+            if ($user->is_verified == 0) {
+                Auth::logout();
+                return back()->with('error', 'Your email is not verified! Please retry verifying email');
+            }
 
             return redirect('employee/list')->with('success', 'Log-In Successful!! ');
         } else {

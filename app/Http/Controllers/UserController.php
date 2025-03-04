@@ -38,10 +38,10 @@ class UserController extends Controller
     public function index(Request $request)
     {
 
-        $users = Auth::user();
-        if (!$users) {
-            return redirect('/')->with('error', 'Illegal login! plz retry');
-        }
+        // $users = Auth::user();
+        // if (!$users) {
+        //     return redirect('/')->with('error', 'Illegal login! plz retry');
+        // }
 
 
         $search = $request->search;   //if query parameter is found
@@ -67,10 +67,10 @@ class UserController extends Controller
     }
     public function create(Request $request)
     {
-        $users = Auth::user();
-        if ($users == null) {
-            return redirect('/')->with('error', 'Illegal login! plz retry ');
-        }
+        // $users = Auth::user();
+        // if ($users == null) {
+        //     return redirect('/')->with('error', 'Illegal login! plz retry ');
+        // }
         // sending data to view it as per selection 
 
         $districts = District::all();
@@ -171,12 +171,10 @@ class UserController extends Controller
     {
         Auth::user();
         $employee = Employee::join('districts', 'districts.id', '=', 'employees.district_id')
-            ->join('states', 'states.id', '=', 'districts.state_id')
-            ->join('countries', 'countries.id', '=', 'states.country_id')
-            ->select('employees.*', 'districts.name as district_name', 'states.name as state_name', 'countries.name as country_name')
+            ->join('countries', 'countries.id', '=', 'districts.country_id')
+            ->select('employees.*', 'districts.name as district_name', 'countries.name as country_name')
             ->where('employees.id', $id)
             ->first();
-        dd($employee);
         return view('show_employee', compact('employee'));
     }
 }

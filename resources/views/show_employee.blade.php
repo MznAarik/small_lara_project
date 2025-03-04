@@ -69,16 +69,16 @@
 
             <!-- Country, State, and District -->
             <div class="row mb-3">
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <label for="country" class="form-label">Country</label>
                     <input type="text" name="country" class="form-control" value="{{ $employee->country_name ?? '' }}"
                         readonly>
                 </div>
-                <div class="col-md-4">
+                {{-- <div class="col-md-4">
                     <label for="state" class="form-label">State</label>
                     <input type="text" name="state" class="form-control" value="{{ $employee->state_name ?? '' }}" readonly>
-                </div>
-                <div class="col-md-4">
+                </div> --}}
+                <div class="col-md-6">
                     <label for="district" class="form-label">District</label>
                     {{-- direct method to get data --}}
                     {{-- @php

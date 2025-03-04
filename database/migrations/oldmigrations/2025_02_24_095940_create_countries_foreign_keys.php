@@ -28,11 +28,6 @@ return new class extends Migration {
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 
-            $table->foreign('state_id')
-                ->references('id')
-                ->on('states')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
 
             // Works same as
             // $table->foreignId('country_id')->constrained()
@@ -49,7 +44,7 @@ return new class extends Migration {
 
             // Corrected foreign key to reference the `id` column of `states`
             $table->foreign('state_id')
-                ->references('id') // Referencing `id` column in states
+                ->references('state_id') // Referencing `state_id` column in states
                 ->on('states')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
